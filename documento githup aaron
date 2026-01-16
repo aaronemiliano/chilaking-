@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Generador de contraseñas</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h1>Generador de contraseñas</h1>
+  <label>Longitud: <input type="number" id="len" min="4" max="256" value="16"></label>
+  <label><input type="checkbox" id="lc" checked> Minúsculas</label>
+  <label><input type="checkbox" id="uc" checked> Mayúsculas</label>
+  <label><input type="checkbox" id="num" checked> Números</label>
+  <label><input type="checkbox" id="sym"> Símbolos</label>
+  <label><input type="checkbox" id="strict"> Modo estricto</label>
+  <button id="gen">Generar</button>
+  <output id="out"></output>
+
+  <script type="module">
+    import { generatePassword } from '../src/generator.js';
+    const $ = id => document.getElementById(id);
+    $('gen').onclick = () => {
+      try {
+        const pwd = generatePassword(
+          Number($('len').value),
+          {
+            lowercase: $('lc').checked,
+            uppercase: $('uc').checked,
+            numbers: $('num').checked,
+            symbols: $('sym').checked,
+            strict: $('strict').checked
+          }
+        );
+        $('out').textContent = pwd;
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+  </script>
+</body>
+</html>
